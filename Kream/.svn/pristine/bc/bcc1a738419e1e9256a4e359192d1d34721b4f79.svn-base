@@ -1,0 +1,17 @@
+package kr.or.ddit.kream.bid.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+
+import kr.or.ddit.kream.vo.BidVo;
+
+public interface IBidService {
+
+	//'판매하기'에서 사이즈별 가격 
+	public List<BidVo> sellInfo(String prodid);	
+
+	
+	
+}

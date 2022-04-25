@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+.text-end a,.text-end a:hover{
+	text-decoration: none;
+	color: black;
+	font-size: 12px;
+}
+.text-end li{
+	float: left;
+	list-style: none;
+	margin-left: 20px;
+}

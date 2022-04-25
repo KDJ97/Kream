@@ -1,0 +1,11 @@
+package kr.or.ddit.kream.service;
+
+import java.sql.SQLException;
+import java.util.Map;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+public interface IBidService {
+
+	public int getPrice(Map<String, String>paramap) ;
+}

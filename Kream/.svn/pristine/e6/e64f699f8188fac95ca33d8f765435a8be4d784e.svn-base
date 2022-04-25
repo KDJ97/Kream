@@ -1,0 +1,21 @@
+package kr.or.ddit.kream.card.dao;
+
+import java.sql.SQLException;
+import java.util.Map;
+
+import kr.or.ddit.kream.vo.AddressVo;
+import kr.or.ddit.kream.vo.BidVo;
+import kr.or.ddit.kream.vo.ProdDetailVo;
+
+public interface IOrderDao {
+		public BidVo selectOrderBid(Map<String,Object> map) throws SQLException; 
+		public BidVo pointchk(String bidId) throws SQLException; 
+		public int insertBidTemp(BidVo bidVo) throws SQLException; 
+		public int updateBidState(Map<String,Object> map) throws SQLException; 
+		public int insertOrder(BidVo bidVo) throws SQLException; 
+		public BidVo selectSellBid(Map<String,Object> map) throws SQLException;
+		public int updatePoint(Map<String,Object> map) throws SQLException; 
+		public ProdDetailVo selectProd(String sizeId) throws SQLException; 
+		public AddressVo selectAdressOne(String memId) throws SQLException; 
+		public String getPoint(String memId) throws SQLException; 
+}

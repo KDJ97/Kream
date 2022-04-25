@@ -1,0 +1,149 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>
+<style>
+
+.content {
+    margin: 0 auto;
+    max-width: 1280px;
+    padding: 0 0 200px;
+}
+.social_feed_header{
+	padding-bottom: 17px;
+	text-align: center;
+}
+
+
+.social_feeds {
+    padding: 12px 8px 0;
+}
+.feed_card {
+    width: calc(25% - 21px);
+    height : 270px;
+    display : inline-block;
+    margin : 5px;
+    border-radius: 15px;
+}
+.user_box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.img_profile {
+    width: 28px;
+    height: 28px;
+    border-radius: 100%;
+    border: 1px solid rgba(34,34,34,.1);
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+.user_name {
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    padding-left: 4px;
+    white-space: nowrap;
+    font-size: 15px;
+    letter-spacing: -.15px;
+    color: rgba(34,34,34,.8);
+}
+.more_btn_box {
+    padding-top: 40px;
+    text-align: center;
+}
+.more_btn_box button {
+    padding: 0 30px;
+}
+.outlinegrey {
+    border: 1px solid #d3d3d3;
+    color: rgba(34,34,34,.8);
+}
+.medium {
+    padding: 0 18px;
+    height: 42px;
+    line-height: 40px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+.card_box{
+	top : 0;
+	height : 100%;
+}
+.social_img_box{
+	overflow: hidden;
+    /* padding-top: 100%; */
+    border-radius: 10px;
+    top: 0;
+    height: 100%;
+}
+.social_img{
+	width : 100%;
+	top : 0;
+	height : 100%;
+}
+</style>
+<script>
+$(function(){
+
+	$.ajax({
+		url : '/Kream/ReviewPage.do',
+		type : 'get',
+		success : function(res){
+			var str = "";
+			
+			$.each(res, function(i, v){
+				str += '<div class = "feed_card item" style = "left : 0px; top:0px;">';
+				str += '	<div class = "card_box">';
+				str += '		<div class = "social_img_box">';
+				str += '			<img class = "social_img" alt = "소셜이미지" src = "' + v.review_photopath + '">';
+				str += '		</div>';
+				str += '	</div>';
+				str += '	<div class = "card_detail">';
+				str += '		<div class = "user_box">';
+				str += '			<img alt = "" src = "' + v.mem_photo + ' " class = "img_profile">';
+				str += '			<p class = "user_name">' + v.mem_email + '</p>';
+				str += '		</div>';
+				str += '		<p>' + v.review_content + '</p>';
+				str += '	</div>';
+				str += '</div>';
+			})
+			$('.masonry_posts').html(str);
+		},
+		error : function(xhr){
+			alert("상태 :  " + xhr.status);	
+		},
+		dataType : 'json'
+	});
+	
+	
+	
+})
+
+
+</script>
+</head>
+<body>
+
+<div class = "container social md">
+	<div class = "social_feed_header">
+		<h2>스타일 리뷰</h2>
+	</div>
+	<div class = "content">
+		<div class = "social_feeds">
+			<div class = "masonry_posts" style = "position:relative; height:1500px;">
+			<!-- 리뷰 리스트 출력 -->
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

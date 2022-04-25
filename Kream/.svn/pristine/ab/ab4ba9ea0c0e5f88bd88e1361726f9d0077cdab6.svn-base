@@ -1,0 +1,21 @@
+package kr.or.ddit.kream.vo;
+
+import java.util.Date;
+
+public class BidVo {
+
+	private String bid_id      ;
+	private String prod_id     ;
+	private Date bid_date    ;
+	private int bid_price   ;
+	private String bid_position;
+	private String mem_email   ; 
+	
+	
+	
+	
+	
+	
+	
+}                            
+                             

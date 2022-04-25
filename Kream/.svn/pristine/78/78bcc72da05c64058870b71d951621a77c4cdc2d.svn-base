@@ -1,0 +1,13 @@
+package kr.or.ddit.kream.prod.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.kream.vo.MainPageProdVo;
+
+
+public interface IProdService {
+
+	public List<MainPageProdVo> prodList();
+}

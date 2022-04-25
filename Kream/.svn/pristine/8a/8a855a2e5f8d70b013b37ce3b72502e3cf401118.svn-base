@@ -1,0 +1,165 @@
+<%@page import="kr.or.ddit.kream.vo.SizeVo"%>
+<%@page import="java.util.List"%>
+<%@page import="kr.or.ddit.kream.vo.PhotoVo"%>
+<%@page import="kr.or.ddit.kream.vo.BidVo"%>
+<%@page import="java.util.Map"%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+<%
+	String prodid = (String) request.getAttribute("prodid");
+	String size_name = (String) request.getAttribute("size_name");
+	String bid_price = (String) request.getAttribute("bid_price");
+	
+	String size_id = (String) request.getAttribute("size_id"); // 추가
+%>
+ 
+ <script>
+ 
+	 $(function(){
+		 
+			// 상품 사진, prod_id,prod_name
+			$.ajax({
+				url : "/Kream/SellLastPhoto.do",
+				type : 'get',
+				data : {
+					"prodid" : "<%=prodid%>"
+				},
+				success : function(res){
+		         
+					//str += '    <div class="product" style=background:rgb(246,238,237);>';
+					str = '		<img width="100px" id = "shoeimg" src = "' + res.photo_path + '" alt = "' + res.prod_name +'">';
+					str += '					<h4 class = "brand">' + res.brand_name + '</h4>';
+					str += '					<p class = "title">' + res.prod_name + '</p>';	
+					str += '					<p class = "title">' + <%=size_name%> + '</p>';	
+				
+					
+		           
+					$('.photo').html(str);
+					
+				},
+				error : function(xhr){
+					alert("상태 : " + xhr.status);
+				},
+				dataType : 'json'
+			})
+				
+			
+		  })
+ 
+ </script>
+
+
+<style>
+.price_text{
+	 text-indent:100px; 
+	margin-left: 50px;
+}
+
+</style>
+
+
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<h1>즉시구매하기</h1>
+
+<div class="photo"></div>
+
+
+
+
+<div class="price_descision">
+ <ul class="price_list">
+   <li class="list_item">
+     <p class="title">즉시 구매가</p>
+     <span class="price">220,000</span>
+     <span class="unit">원</span>
+   </li>
+   <li class="list_item">
+     <p class="title">즉시 판매가</p>
+     <span class="price"><%=bid_price %></span>
+     <span class="unit">원</span>
+   </li>
+ </ul>
+<div class="instant_group">
+  <div class="tab_area buy_tab">
+    <ul class="tab_list">
+       <li class="item">
+          <a class="item_link">판매입찰</a>
+        </li>
+        <li class="item on">
+          <a class="item_link">즉시 판매</a>
+        </li>
+    </ul>
+  </div><!-- class="tab_area buy_tab" -->
+  
+<div>  <!-- 즉시판매, 입찰이 버튼 누를때 마다 div 바뀜 -->
+ <div class="price_now">
+   <dl class="price_now_box">
+     <dt class="price_now_title">즉시판매가</dt>
+       <dd class="price">
+         <span class="amount"><%=bid_price %></span>
+         <span class="unit">원</span>
+        </dd>
+   </dl>
+ </div> <!-- price_now끝 -->
+ <div class="price_bind">
+   <dl class="price_addition">
+      <dt class="price_title">
+        <span>검수비</span>
+       </dt> 
+       <dd class="price_text">
+            무료
+       </dd>
+   </dl>
+   <dl class="price_addition">
+      <dt class="price_title">
+        <span>수수료</span>
+       </dt> 
+       <dd class="price_text">무료
+       </dd>
+   </dl>
+   <dl class="price_addition">
+      <dt class="price_title">
+        <span>배송비</span>
+       </dt> 
+       <dd class="price_text">선불˙ 판매자 부담
+       </dd>
+   </dl>
+ </div><!-- class="price_bind" -->
+</div> <!-- class="instant_group" -->
+</div><!-- class="price_descision" -->
+
+<div class="buy_total_price">
+  <div class="price_total">
+    <dl class="price_box">
+      <dt class="price_title">정산금액</dt>
+      <dd class="price">
+        <span class="amount">정산금액 떠야됨</span>
+        <span class="unit">원</span>
+       </dd>
+    </dl>
+  </div> <!-- class="price_total" -->
+  <a class="btn full solid false" href = "/Kream/order.jsp?size_name=<%=size_name %>&bid_price=<%=bid_price %>&prodid=<%=prodid %>&size_id=<%=size_id %> " class = "btn_division sell">즉시 구매계속</a>
+  
+</div><!-- class="buy_total_price" -->
+
+</body>
+</html>

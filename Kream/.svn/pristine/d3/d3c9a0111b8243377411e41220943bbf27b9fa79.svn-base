@@ -1,0 +1,14 @@
+package kr.or.ddit.kream.bid.service;
+
+import java.util.List;
+
+
+import kr.or.ddit.kream.vo.BidVo;
+
+public interface IBidService {
+
+	public List<BidVo> sellInfo(String prodid);	
+
+	
+	
+}

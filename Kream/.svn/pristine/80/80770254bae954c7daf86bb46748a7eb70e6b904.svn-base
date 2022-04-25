@@ -1,0 +1,45 @@
+package kr.or.ddit.kream.bid.dao;
+
+import java.sql.SQLException;
+import java.util.Map;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.or.ddit.kream.util.SqlMapClientFactory;
+
+public class BidDaoImpl implements IBidDao {
+
+	private SqlMapClient smc;
+	private static IBidDao dao;
+
+		private BidDaoImpl(){	
+			smc = SqlMapClientFactory.getSqlMapClient();
+			
+		}
+		
+		public static IBidDao getInstance(){
+			if(dao==null) dao = new BidDaoImpl();
+			
+			return dao;
+		}
+		
+		
+
+		
+		
+		@Override
+		public int getPrice(Map<String, String> paramap) {
+			int cnt=0;
+			try {
+			 cnt= (int) smc.queryForObject("bid.getPrice",paramap);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return cnt;
+	       
+			
+		}
+
+
+}

@@ -1,0 +1,63 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+#board{
+	width: 900px;
+	margin: 0px auto;
+}
+#leftnav{
+	margin: 10px;
+	width: 150px;
+	height: auto;
+	
+}
+#leftnav ul{
+	list-style: none;
+	padding: 5px; 
+}
+
+#leftnav{
+	float: left;
+	width: 20%;
+	
+}
+#boardList{
+	margin-top: 20px;
+	float: right;
+	width: 75%;
+	
+}
+
+
+iframe {
+	border: none;
+	width: 100%;
+	height: auto;
+}
+</style>
+</head>
+<body>
+<div id="board">
+	<div id="leftnav">
+		<h1>고객센터</h1>
+		<ul>
+			<li>공지사항</li><hr>
+			<li>배송문의</li><hr>
+			<li>상품문의</li><hr>
+			<li>Q&A</li><hr>
+		</ul>
+	</div>
+
+	<div id="boardList">
+		<article id="main">
+			<iframe src="./noticeList.jsp" name="ifr"></iframe>
+		</article>
+	</div>
+</div>
+</body>
+</html>

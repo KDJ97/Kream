@@ -1,0 +1,250 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel = "stylesheet" href = "/Kream/css/order.css">
+<script src = "<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>
+<%
+// 	String sizeId = (String) request.getParameter("sizeId");
+// 	String memId = (String) request.getParameter("memId");
+	String sizeId = (String)request.getAttribute("size_id");
+	int bid_price = (int)request.getAttribute("bid_price");
+	int price = bid_price + 3000;
+%>
+<script>
+$(function(){
+	
+	//상품정보 가져오기 
+	$.ajax({
+		url : '/Kream/OrderController.do',
+		type : 'post',
+		data : {
+			"sizeId" : "<%=sizeId%>"
+// 			"sizeId" : 55
+		},
+		success : function(res){
+			str = '<img id = "small_img" src = "' + res.photo_path + '" alt = "' + res.prod_name +'">';
+			$('.prod_img').html(str);
+			
+			con = '<b class="brand_name">'+ res.brand_name + '</b><br>';
+			con += '<p class="prod_name">' + res.prod_name + '</p><br>';
+			con += '<b class="size_name">' + res.size_name + '</b>';
+			$('.content').html(con);			
+		},
+		error : function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})
+	//배송정보 가져오기 
+	$.ajax({
+		url : '/Kream/AddressController.do',
+		type : 'post',
+		data : {
+<%-- 			"memId" : "<%=memId%>"  --%>
+			"memId" : "qwer" 
+		},
+		success : function(res){
+			str='<table class="add_tb"><tr><td>받는분</td>';
+			str+='<td>'+ res.name +'</td></tr>';
+			str+='<tr><td>연락처</td>';
+			str+='<td>'+ res.phone_num+'</td></tr>';
+			str+='<tr><td>배송주소</td>';
+			str+='<td>'+ res.addr1 + ' ' + res.addr2 +'</td></tr></table>';
+			$('#add').html(str);
+			
+		},
+		error : function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})
+	//포인트정보 가져오기 
+	$.ajax({
+		url : '/Kream/PointController.do',
+		type : 'post',
+		data : {
+<%-- 			"memId" : "<%=memId%>"  --%>
+			"memId" : "qwer" 
+		},
+		success : function(res){
+			str='<table class="add_tb"><tr><td>보유 포인트</td>';
+			str+='<td id="mem_point">'+ res +'</td></tr></table>';
+			$('#my_point').html(str);
+		},
+		error : function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})
+	
+	//포인트 입력창 문자방지
+	 var replaceNotInt = /[^0-9]/gi;
+	 $(".input_point").on("focusout", function() {
+            var x = $(this).val();
+            if (x.length > 0) {
+                if (x.match(replaceNotInt)) {
+                   x = x.replace(replaceNotInt, "");
+                }
+            }
+        }).on("keyup", function() {
+        	var x = $(this).val();
+            $(this).val($(this).val().replace(replaceNotInt, ""));
+            
+            inP = parseInt(x);
+    		console.log(inP);
+    		point = parseInt($('#mem_point').html());
+    		bp = <%=price%>;
+    		if(inP > bp){
+    			if(inP > point){
+    				x = x.substring(0, x.length-1);
+    			}else{
+        			console.log("xz", x)
+        			x = x.substring(0, x.length-1);
+    			}
+
+    		}
+    		if(x.length >bp.length){
+    			if(x.length > point.length){
+    				x = x.substring(0, x.length-1);
+    			}else{
+    					x = x.substring(0, x.length-1);
+    			}
+    		}
+    		
+    		 $(this).val(x);
+    		 
+            if(x==0||x==""){
+            	$('#use_point').html("-");
+            	$('#pay_money').html(bp + "원");
+            }else{
+            	 $('#use_point').html($(this).val().replace(replaceNotInt, ""));
+            	 $('#pay_money').html((bp - x) + "원");
+            } 
+        });
+	
+	 //포인트 최대사용 버튼
+	$('.point_btn').on('click', function(){
+	    point = parseInt($('#mem_point').html());
+		bp = <%=price%>;
+		if(point < bp){
+			$('.input_point').val(point);
+			$('#use_point').html(point);
+			$('#pay_money').html(bp-point);
+		}else{
+			$('.input_point').val(bp);
+			$('#use_point').html(bp);
+			$('#pay_money').html("0");
+		}
+		
+	})
+	
+	$('.main').on('submit',function(e){
+		e.preventDefault();
+		alert("ttt")
+		return false;	 
+	})
+})
+</script> 
+</head>
+<body>
+<div class="header">
+	<div class="header_top">
+		<div  class="top_inner">
+			<ul class="top_list">
+				<li class="top_item"><a  href="/notice" class="top_link"> 고객센터 </a></li>
+				<li class="top_item"><a  href="/my/wish" class="top_link"> 관심상품 </a></li>
+				<li class="top_item"><a  href="/my" class="top_link"> 마이페이지 </a></li>
+				<li class="top_item"><a  href="/" class="top_link"> 로그아웃 </a></li>
+			</ul>
+		</div>
+	</div>
+	<hr>
+	<div class="main_inner">
+		<h1><a href="#" aria-label="홈" class="logo">SHOEKREAM</a></h1>
+		<div class="center">
+			<h2 class="title"><span class="title_txt">주문/정산</span></h2>
+		</div>
+		<div class="right">
+			<button type="button" class="btn btn_standard outlinegrey small"> 검수기준 </button>
+		</div>
+	</div>
+</div>
+<form class="main">
+	
+	<div class="prod">
+		<div class="prod_img">
+		</div>
+		<div class="content">
+		</div>
+	</div>
+	
+	<div class="address">
+		<h3>배송주소</h3>
+		<div id="add"></div>
+		<hr>
+		<h3 class="address_bt">배송방법</h3>
+		 <div>
+			<img class="box" src="/Kream/img/Other/택배상자.png">
+			<div class="box_con">
+				<p><b>배송료</b> 3000원</p>
+				<p class="grey">검수후 배송 ㆍ 5-7일 내 도착 예정</p>
+			</div>
+		 </div>		
+	</div>
+	<div class="point">
+		<h3 class="point_top">포인트</h3>
+		<input class="input_point" type="text" placeholder="결제시점에 최대사용">
+		<button class="point_btn" type="button" >최대사용</button>
+		<span id="joinspan"></span>
+		<div id="my_point"></div>
+	</div>
+	
+	<div class="orderInfo">
+		<h3 class="point_top">최종 주문 정보</h3>
+			<p>총 결제 금액</p>
+			<p class="right" id="pay_money"><%=price%>원</p>
+			<hr>
+			<table class="order_tb">
+				<tr>
+					<td><b>구매 희망가</b></td>
+					<td id="bid_price"><b><%=bid_price%>원</b></td>
+				</tr>
+				<tr>
+					<td>포인트</td>
+					<td id="use_point">-</td>
+				</tr>
+				<tr>
+					<td>검수비</td>
+					<td>무료</td>
+				</tr>
+				<tr>
+					<td>수수료</td>
+					<td>무료</td>
+				</tr>
+				<tr>
+					<td>배송비</td>
+					<td>3000원</td>
+				</tr>
+			</table>
+			
+	</div>
+	<div class="card">
+		<h3 class="point_top">결제방법</h3>
+		<p>간편 결제</p>
+		<button type="button" class="card_btn">
+			1111-1111-1111-1111
+		</button>
+		<p>구매 입찰은 일시불만 지원하며, 카드사 홈페이지나 앱에서 분할 납부로 변경 가능합니다.
+		 단, 카드사별 정책에 따라 분할 납부 변경 시 수수료가 발생할 수 있습니다.</p>
+	</div>
+	<div class="agreement">
+		<input type="submit" class="submit_btn" value="구매 입찰하기">
+	</div>
+
+</form>
+</body>
+</html>

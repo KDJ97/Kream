@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="order">
+	<select id="selectOrderBid" parameterClass="map" resultClass="bidVo" >
+	 select c.bid_id, c.mem_email, c.bid_price
+       from ( select a.bid_id, a.mem_email, a.bid_price
+               from bid a , prod_size b
+			  where a.size_id = b.size_id
+  			    and a.bid_position = 'buyer'
+  	   <![CDATA[and a.bid_price <=270000 ]]>
+			    and a.size_id = #size_id#
+			    and a.bid_state = 0
+			   order by a.bid_price desc) c
+  	   where rownum = 1
+	</select>
+	<select id="pointchk" parameterClass="string" resultClass="bidVo">
+		  SELECT POINT_YN, POINT
+    	    FROM BID
+           WHERE BID_ID = #BID_ID#;
+	</select>
+</sqlMap>

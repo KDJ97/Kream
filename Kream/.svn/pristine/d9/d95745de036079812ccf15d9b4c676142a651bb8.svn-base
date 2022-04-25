@@ -1,0 +1,413 @@
+<%@page import="kr.or.ddit.kream.vo.MemberVO"%>
+<%@page import="kr.or.ddit.kream.vo.BidVo"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel = "stylesheet" href = "/Kream/css/prodDetail.css">
+<title>Insert title here</title>
+<script src = "<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<%
+	//prodid 받기
+	String prodid = (String) request.getAttribute("prodid");
+	
+	//회원 이메일 받기
+	MemberVO memvo = (MemberVO) session.getAttribute("memberVo");
+	String memid = memvo.getMem_email();
+	
+%>
+<script type="text/javascript">
+
+$(function(){
+	str = "";//이미지 출력
+	code = "";//상품정보 출력
+	
+	
+	$.ajax({
+		url : '/Kream/prodDetail.do',
+		type : 'get',
+		data : {
+			"prodid" : "<%=prodid%>"
+		},
+		success : function(res){
+			var rdate = new Date(res.prod_launch);
+			console.log(rdate);
+			console.log(res.prod_launch);
+			//res.키값
+			//이미지 출력
+			str += '<img id = "shoeimg" src = "' + res.photo_path + '" alt = "' + res.prod_name +'">';
+			$('.prodimg').html(str);
+			
+			//정보 출력
+			code += '<div class = "column_top">';
+			code += '	<div class = "detail_main_title">';
+			code += '		<h3 class = "brand">' + res.brand_name + '</h3><br>';
+			code += '		<p class = "title">' + res.prod_name + '</p>';	
+			code += '	</div>';//detail_main_title끝
+			code += '	<div class = "product_figure_wrap lg">';//클래스 두개임
+			code += '		<div class = "detail_size">';
+			code += '			<div class = "title">';
+			code += '				<span class = "title_txt">사이즈</span>';
+			code += '			</div>';
+			code += '			<div class = "size">';
+									//클릭이벤트 모달 줘야함
+			code += '				<button type = "button" data-toggle="modal" data-target="#sizemodal" class = "btn_size">';
+			code += '				<span class = "btn_text">모든 사이즈</span>';
+			code += '			</div>';
+			code += '		</div>';//detail_size 끝
+			code += '		<div class = "detail_price">';
+			code += '			<div class = "title">';
+			code += '				<span class = "title_txt">최근 거래가</span>';
+			code += '			</div>';
+			code += '			<div class = "price">';
+			code += '				<div class = "amount">';
+			code += '					<span class = "num" id = "recentPrice">' + res.prod_resell + '</span>'
+			code += '					<span id = "chkwon" class = "won">원</span>'
+			code += '				</div>';
+			code += '			</div>';
+			code += '		</div>';//detail_price 끝
+			code += '	</div>';//product_figure_wrap lg 끝
+			
+			code += '	<div class = "btn_wrap">';
+			code += '		<div class = division_btn_box>';
+			code += '			<a href = "/Kream/tempId.do?gubun=2&prodid=' + res.prod_id + '" class = "btn_division buy">';//서블릿 보내서 페이지 이동
+			code += '				<strong class = "buytitle">구매</strong>';
+			code += '				<div class = "price">';
+			code += '					<span class = "amount">';
+			code += '						<em class = "num">' + res.prod_resell + '</em>';
+			code += '						<span class = "won">&nbsp;원</span>';
+			code += '					<span>';
+			code += '					<span class = "desc">즉시 구매가</span>';
+			code += '				</div>';
+			code += '			</a>';
+			code += '			<a href = "/Kream/tempId.do?gubun=3&prodid=' + res.prod_id + '" class = "btn_division sell">';//서블릿 보내서 페이지 이동
+			code += '				<strong class = "seltitle">판매</strong>';
+			code += '				<div class = "price">';
+			code += '					<span class = "amount">';
+			code += '						<em class = "num">' + res.prod_resell + '</em>';
+			code += '						<span class = "won">&nbsp;원</span>';
+			code += '					<span>';
+			code += '					<span class = "desc">즉시 판매가</span>';
+			code += '				</div>';
+			code += '			</a>';
+			code += '		</div>';//division_btn_box 끝
+			code += '		<button type = "button" class = "btn_like">';//클릭시 관심상품에 prod_id를 저장
+			code += '			<span class = "btn_text">관심상품 담기</span>';//클릭하면 alert로 관심상품 담겼다고 알려주기
+			code += '		</button>';
+			code += '	</div>';//btn_wrap 끝
+			code += '</div>';//column_top 끝
+			
+			code += '<div class = "product_info_wrap">';
+			code += '	<h3>상품 정보</h3>';
+			code += '	<div class = "detail_product_wrap">';
+			code += '		<dl class = "detail_product">';
+			code += '			<div class = "detail_box model_num">';
+			code += '				<dt class = "product_title">모델번호</dt>';
+			code += '				<dd class = "product_info">' + res.prod_id + '</dd>';
+			code += '			</div>';//detail_box model_num 끝
+			code += '			<div class = "detail_box">';
+			code += '				<dt class = "product_title">출시일</dt>';
+			code += '				<dd class = "product_info">' + rdate + '</dd>';
+			code += '			</div>';//detail_box 끝
+			code += '			<div class = "detail_box">';
+			code += '				<dt class = "product_title">발매가</dt>';
+			code += '				<dd class = "product_info">' + res.org_price + '</dd>';
+			code += '			</div>';//detail_box 끝
+			code += '		</dl>';//detail_product 끝
+			code += '	</div>';//detail_product_wrap 끝
+			code += '</div>';//product_info_wrap 끝
+			
+			//그래프 출력
+			code += '<div class = "detail_wrap">';
+			code += '	<div class = "product_sales_graph"';
+			code += '		<div class = "title">';
+			code += '			<h3 class = "detail_title md">시세</h3>';
+			code += '			<div class = "sales_filter md">';
+			code += '				<div class = "filter_unit">';
+			code += '					<select class = "btn btn_select" id = "graphSize">';
+			code += '						<option value = "230">230</option>';
+			code += '						<option value = "235">235</option>';
+			code += '						<option value = "240">240</option>';
+			code += '						<option value = "245">245</option>';
+			code += '						<option value = "250">250</option>';
+			code += '						<option value = "255">255</option>';
+			code += '						<option value = "260">260</option>';
+			code += '						<option value = "265">265</option>';
+			code += '						<option value = "270">270</option>';
+			code += '						<option value = "275">275</option>';
+			code += '						<option value = "280">280</option>';
+			code += '						<option value = "285">285</option>';
+			code += '						<option value = "290">290</option>';
+			code += '						<option value = "295">295</option>';
+			code += '						<option value = "300">300</option>';
+			code += '						<option value = "305">305</option>';
+			code += '	 					<option value = "310">310</option>';
+			code += '					</select>';
+			code += '				</div>';//filter_unit 끝
+			code += '			</div>';//sales_filter md 끝
+			code += '		</div>';//title 끝
+			
+			code += '		<div class = "tab_area" id = "tab_area">';
+			code += '		</div>';
+			code += '	</div>';//product_sales_graph 끝
+			code += '</div>';//detail_wrap 끝
+			
+			$('.column_box').html(code);
+		},
+		error : function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})
+	//---------------그래프-------------
+		xArray = new Array();
+		yArray = new Array();
+		fdate = "";
+		ldate = "";
+		maxPrice = 0;
+		minPrice = 0;
+	//그래프의 콤보박스 이벤트가 변경되었을때
+	$('.column_box').on('change', '.btn_select', function(){
+		//사이즈를 가져온다
+		sizenm = $(this).val();
+		
+		$.ajax({
+			url : '/Kream/GraphInfo.do', 
+			type : 'get',
+			data : {
+				"prodid" : "<%=prodid%>",
+				"sizename" : sizenm
+			},
+			success : function(res){
+				//dao, service, servlet 만들고 select로 출력문 만들기,
+				// select 이벤트가 발생되면 select된 size_name의 값을 얻고
+				// size_name의 값을 조건으로 넣은 쿼리문으로 또 이벤트 따로 만들기
+				if(res.length == 0){
+					alert("낙찰된 사례가 없습니다");
+				}else{
+					fdate = res[0].temp_date;
+					$.each(res, function(i, v){
+						xArray.push(v.temp_date);
+						yArray.push(parseInt(v.temp_price));
+						ldate = v.temp_date;
+					})
+					
+					var graphData = [{
+						  x: xArray,
+						  y: yArray,
+						  mode:"lines"
+						}];
+					
+					maxPrice = Math.max(...yArray);
+					minPrice = Math.min(...yArray);
+					
+						// Define Layout
+						var layout = {
+						  xaxis: {range: [new Date(fdate), new Date(ldate)], title: "시세"},
+						  yaxis: {range: [minPrice, maxPrice]},  
+						  title: "시세"
+						};
+						// Display using Plotly
+						Plotly.newPlot("tab_area", graphData, layout);
+// 					alert(xArray + "/" + yArray + "/" + fdate + "/" + ldate);
+				}
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status);
+			},
+			dataType : 'json'
+		})
+	})
+//-------------------------------------그래프끝	
+	$.ajax({
+			url : '/Kream/prodAllSize.do',
+			type : 'get',
+			data : {
+				"prodid" : "<%=prodid%>"
+			},
+			success : function(res){
+				console.log(res.length)
+				str = "";
+				$.each(res, function(i, v){
+					
+					var temp = "구매입찰";
+					if(v.bid_price == 0){
+		        		str += '<ul class = "select_list">';
+		    			str += '	<li class = "select_item">';
+						str += '		<button type = "button" class = "select_link buy bid">';
+						str += '			<div class = "link_inner">';
+						str += '				<span class = "size">' + v.size_name + '</span><br>';
+						str += '				<span class = "price">' + temp + '</span>';
+						str += '			</div>';
+						str += '		</button>';
+						str += '	</li>';
+						str += '</ul>';
+					}else {
+		        		str += '<ul class = "select_list">';
+		    			str += '	<li class = "select_item">';
+						str += '		<button type = "button" class = "select_link buy bid">';
+						str += '			<div class = "link_inner">';
+						str += '				<span class = "size">' + v.size_name + '</span><br>';
+						str += '				<span class = "price">' + v.bid_price + '</span>';
+						str += '			</div>';
+						str += '		</button>';
+						str += '	</li>';
+						str += '</ul>';
+					}
+				});
+// 				alert(str);
+				$('.select_area').html(str);
+				
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status);
+			},
+			dataType : "json"
+		})
+	
+	//모달 실행
+	$('.column_box').on('click', 'btn_size', function(){
+			$('.modal').modal('show');
+	})
+	
+	//사이즈를 선택시 최근거래가를 불러와 최근거래가 span에 출력
+	$('.select_area').on('click', '.select_item', function(){
+		var sizenm = $(this).find('span[class="size"]').text();
+// 		alert(sizenm);//check용
+		$.ajax({
+			url : '/Kream/GetRecentPrice.do',
+			type : 'get',
+			data : {
+				"prodid" : "<%=prodid%>",
+				"sizenm" : sizenm
+			},
+			success : function(res){
+				var temp = "구매입찰";
+				if(res==null){
+					$('.column_box').find('span[id = recentPrice]').empty();
+					$('.column_box').find('span[id = chkwon]').empty();
+					$('.column_box').find('span[id = recentPrice]').text(temp);
+					
+				}else{
+					$('.column_box').find('span[id = chkwon]').empty();
+					$('.column_box').find('span[id = chkwon]').text("원");
+					$('.column_box').find('span[id = recentPrice]').empty();
+					$('.column_box').find('span[id = recentPrice]').text(res);
+				}
+				$('.modal').modal('hide');
+			},
+			error : function(xhr){
+				alert('상태 : ' + xhr.status);
+			},
+			dataType : 'json'
+		});
+	})
+	
+	//관심상품
+	$('.column_box').on('click', '.btn_like', function(){
+		$.ajax({
+			url : '/Kream/prodLikeUpdate.do',
+			type : 'get',
+			data : {
+				"prodid" : "<%=prodid%>",
+				"memid" : "<%=memid%>"
+			},
+			success : function(res){
+				if(res == "성공"){
+					alert("관심상품에 등록되었습니다!");
+				}else if(res == "삭제"){
+					alert("관심상품에서 삭제되었습니다!");
+				}
+			},
+			error : function(xhr){
+				alert('상태 : ' + xhr.status);
+			},
+			dataType : 'json'
+		})
+	})
+	
+	
+})
+
+
+
+
+</script>
+<style type="text/css">
+
+</style>
+
+</head>
+<body>
+<h2>ShoeKream</h2>
+<hr>
+
+<!-- 부모 div -->
+<div class = "content">
+	
+	<!-- 상품 사진 -->
+	<div class = "column_bind">
+		<div class = "prodimg">
+			<span>
+			<%=prodid %>
+			</span><!-- 테스트용 -->
+		</div>
+	</div>
+	
+	<!-- 상품 정보 -->
+	<div class = "column">
+		<div class = "column_box">
+		
+		</div>
+	</div>
+</div>
+
+
+<!-- 모달 만들기 -->
+<div class = "modal" id = "sizemodal" display = "none">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+      
+	        <!-- Modal Header -->
+	        <div class="modal-header">
+	          <h4 class="modal-title">사이즈</h4>
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        </div>
+        
+        	<!-- Modal body -->
+        	<div class="modal-body">
+        		<div class = "select_area" showlayer = "true">
+        		
+        		</div>
+        	</div>
+        	        <!-- Modal footer -->
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+	        </div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

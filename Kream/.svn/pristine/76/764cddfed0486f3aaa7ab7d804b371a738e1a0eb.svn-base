@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="boardQnA">
+	<!-- Q&A 게시판 공지사항 조회-->
+	<select id="" parameterClass="" resultClass="">
+	
+	</select>
+	<!-- Q&A 게시판 게시글 조회-->
+	
+	<!-- Q&A 게시판 게시글 등록-->
+	<insert id="insertQnA" parameterClass="boardQnAVo">
+		INSERT INTO BOARD_QNA
+		VALUES ('1', #memid#,#title#,#content#,SYSDATE)
+	</insert>
+	
+</sqlMap>
+	
+	

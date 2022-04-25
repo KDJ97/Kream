@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="member">
+	<insert id="insertMember" parameterClass="memberVo">
+		insert into member(mem_email,mem_pass,mem_name,mem_addr)
+		values(#mem_email#,#mem_pass#,#mem_name#,#mem_addr#)
+	</insert>
+	
+	<select id="getMember" parameterClass='memberVo' resultClass="memberVo">
+		select * from member
+		where mem_email = #mem_email#
+        and mem_pass = #mem_pass#
+	</select>
+	
+	<select id="getBidList" parameterClass="map" resultClass="myBuyingListVo">
+		SELECT A.PROD_ID
+	     	 , A.PROD_NAME
+	         , B.SIZE_NAME
+	         , TO_CHAR(C.BID_DATE,'YYYY/MM/DD') AS BID_DATE
+	     	 , C.BID_STATE
+	     	 , C.BID_PRICE
+	     	 , D.PHOTO_PATH
+	  	  FROM PROD A, PROD_SIZE B
+	         , (SELECT BID_DATE
+	                 , BID_PRICE
+	             	 , BID_STATE
+	             	 , SIZE_ID 
+	              FROM BID
+	         	 WHERE MEM_EMAIL = #mem_email#
+	         	   AND BID_POSITION = #bid_position#) C
+	    	 , PHOTO D
+	 	 WHERE A.PROD_ID=B.PROD_ID
+	       AND C.SIZE_ID=B.SIZE_ID
+	       AND D.PROD_ID=A.PROD_ID
+	       <![CDATA[ AND ROWNUM <= 5
+         ORDER BY 4 DESC]]>
+	</select>
+	
+	<select id="searchbuyList" parameterClass="map" resultClass="myBuyingListVo">
+		SELECT A.PROD_ID
+		     , A.PROD_NAME
+		     , B.SIZE_NAME
+		     , C.BID_DATE as date1
+		     , TO_CHAR(C.BID_DATE,'YYYY/MM/DD') as BID_DATE
+		     , C.BID_STATE
+		     , C.BID_PRICE
+		     , D.PHOTO_PATH
+		  FROM PROD A, PROD_SIZE B
+		     , (SELECT BID_DATE
+		             , BID_PRICE
+		             , BID_STATE
+		             , SIZE_ID 
+		          FROM BID
+		         WHERE MEM_EMAIL = #mem_email#
+		           AND BID_POSITION = #bid_position#
+		           AND BID_DATE BETWEEN TO_DATE(#start#,'YYYY-MM-DD')AND TO_DATE(#end#,'YYYY-MM-DD')) C
+		     , PHOTO D
+		 WHERE A.PROD_ID=B.PROD_ID
+		   AND C.SIZE_ID=B.SIZE_ID
+		   AND D.PROD_ID=A.PROD_ID
+		  ORDER BY 5 $sort$
+	</select>
+	
+	<select id="getBuySellCount" parameterClass="string" resultClass="HashMap">
+		   SELECT COUNT((case when BID_POSITION = 'buyer' then 0 end)) as buyerall
+                , COUNT((case when BID_POSITION = 'seller' then 0 end)) as sellerall
+                , COUNT((case when BID_POSITION = 'buyer' and BID_STATE = 1 then 0 end)) as buyer1
+                , COUNT((case when BID_POSITION = 'seller' and BID_STATE = 1 then 0 end)) as seller1
+                , COUNT((case when BID_POSITION = 'buyer' and BID_STATE = 0 then 0 end)) as buyer0
+                , COUNT((case when BID_POSITION = 'seller' and BID_STATE = 0 then 0 end)) as seller0
+             FROM BID
+            WHERE MEM_EMAIL = #data#
+	</select>
+	
+	<select id="wishList" parameterClass="string" resultClass="HashMap">
+		SELECT A.PROD_ID, A.PROD_NAME, B.BRAND_NAME, C.PHOTO_PATH ,A.PROD_RESELL
+		  FROM PROD A, BRAND B, PHOTO C
+		     , (SELECT PROD_ID
+		          FROM LIKE_PROD
+		         WHERE MEM_EMAIL = #data#) D
+		 WHERE A.PROD_ID = C.PROD_ID
+		   AND A.BRAND_ID = B.BRAND_ID
+		   AND A.PROD_ID = D.PROD_ID
+	
+	</select>
+	
+
+</sqlMap>

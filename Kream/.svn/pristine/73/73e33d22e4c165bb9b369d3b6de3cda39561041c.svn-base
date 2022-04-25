@@ -1,0 +1,18 @@
+package kr.or.ddit.kream.service;
+
+import kr.or.ddit.kream.dao.BoardQnADaoImpl;
+import kr.or.ddit.kream.dao.IBoardQnADao;
+
+public class BoardQnAServiceImpl implements IBoardQnAService {
+	private static IBoardQnADao dao;
+	private static IBoardQnAService service;
+	
+	private BoardQnAServiceImpl() {
+		dao = BoardQnADaoImpl.getInstance();
+	}
+
+	public static IBoardQnAService getInstance() {
+		if(service == null) service = BoardQnAServiceImpl.getInstance();
+		return service;
+	}
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+	<sqlMap namespace = "prod">
+		
+	<select id = "prodlist" resultClass = "mainpageprodVo">
+		select a.prod_id, a.prod_name, b.brand_name, c.photo_path
+		  from prod a, brand b, photo c
+		 where a.prod_id = c.prod_id
+		   and a.brand_id = b.brand_id
+	</select>
+	
+	<select id = "lprodlist" resultClass = "lprodVo">
+		select * from lprod
+	</select>
+	
+	<select id = "prodDetail" resultClass = "prodDetailVo" parameterClass = "string">
+		select a.prod_id,
+		        a.prod_name,
+		      a.prod_resell,
+		      a.org_price,
+		      b.photo_path,
+		      c.brand_name
+		  from prod a, photo b, brand c
+		  where a.prod_id = b.prod_id
+		    and a.brand_id = c.brand_id
+		    and a.prod_id = #prodid#
+	</select>
+	
+	</sqlMap>

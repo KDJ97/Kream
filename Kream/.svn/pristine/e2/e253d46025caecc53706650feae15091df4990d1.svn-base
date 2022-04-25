@@ -1,0 +1,40 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+#header{
+	display:flex;
+	justify-content: center;
+}
+#header1{
+	margin-top:10px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#header2{
+	border-bottom: 2px solid;
+	display : inline-block;
+	width: 500px;
+	height: 30px;
+	margin-top:10px;
+	margin-left: 50px;
+	border-bottom: 2px solid;
+}
+<!-- header style끝-->
+</style>
+
+
+</head>
+<body>
+<div id="header">
+<span id="header1">고객센터</span>
+<div id ="header2">공지사항</div>
+</div>
+
+</body>
+</html>

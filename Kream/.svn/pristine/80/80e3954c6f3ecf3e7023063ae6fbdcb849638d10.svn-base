@@ -1,0 +1,12 @@
+package kr.or.ddit.kream.dao;
+
+import java.sql.SQLException;
+import java.util.Map;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+public interface IBidDao {
+
+	public int getPrice(SqlMapClient smc , Map<String, String>paramap) throws SQLException;
+	
+}

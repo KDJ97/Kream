@@ -1,0 +1,65 @@
+@charset "UTF-8";
+
+body{
+	padding-top: 118px;
+}
+
+.text-end a,.text-end a:hover{
+	text-decoration: none;
+	color: black;
+	font-size: 12px;
+}
+.text-end li{
+	float: left;
+	list-style: none;
+	margin-left: 20px;
+}
+
+nav{
+	display: block;
+}
+
+
+.gnb_area{
+	align-items: center;
+	display: flex;
+	margin-left: auto;
+}
+.gnb_list, .gnb_item{
+	list-style: none;
+}
+.gnb_list li{
+	margin: 0px 0px;
+	
+}
+.gnb_item a, .gnb_item a:hover{
+	font-size: 20px;
+	position: relative;
+	text-decoration: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,207 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.header{
+	background : white;
+}
+*, :after, :before {
+    box-sizing: border-box;
+}
+top_inner, .top_list {
+    display: flex;
+    padding: 8px 40px;
+}
+.top_list {
+    align-items: center;
+    margin-left: auto;
+    float: right;
+}
+.top_link {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+	letter-spacing: -.06px; 
+    color: rgba(34,34,34,.8);
+}
+a, a:active, a:focus, a:hover {
+    text-decoration: none;
+}
+.top_item+.top_item {
+    margin-left: 24px;
+}
+li, ol, ul {
+    list-style: none;
+}
+li {
+    display: list-item;
+}
+hr{
+    margin: 0px;
+    clear: both;
+}
+h1 {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+.center, .right {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+.center {
+    align-items: center;
+    margin: 0 20px;
+    max-width: 466px;
+}
+.main_inner {
+	display: flex;
+    padding: 0 40px;
+    height: 68px;
+    min-width: 320px;
+    justify-content: space-between;
+  	align-items: center;
+}
+.logo{
+	color : black;
+}
+.prod{
+	background: white;
+    width: 600px;
+    min-height: 200px;
+    margin: 11px auto;
+    padding: 15px;
+}
+.prod_img{
+	float: left;
+	width : 31%;
+}
+.content{
+	float: right;
+	width : 60%;
+	margin-top: 50px;
+}
+#small_img{
+    width: 100%;
+    padding: 10px;
+}
+body{
+	background : lightgrey;
+}
+
+body, button, dd, div, dl, dt, fieldset, figcaption, figure, form, h1, h2, h3, h4, h5, h6, input, legend, li, ol, p, select, table, td, textarea, th, ul {
+    margin: 0;
+    padding: 0;
+}
+</style>
+<script src = "<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>
+<%
+	String sizeId = (String) request.getAttribute("sizeId");
+	String memId = (String) request.getAttribute("memId");
+%>
+<script>
+$(function(){
+	//상품정보 가져오기 
+	$.ajax({
+		url : '/Kream/OrderController.do',
+		type : 'post',
+		data : {
+<%-- 			"sizeId" : "<%=sizeId%>" --%>
+			"sizeId" : 55
+		},
+		success : function(res){
+			str = '<img id = "small_img" src = "' + res.photo_path + '" alt = "' + res.prod_name +'">';
+			$('.prod_img').html(str);
+			
+			con = '<b class="brand_name">'+ res.brand_name + '</b><br>';
+			con += '<p class="prod_name">' + res.prod_name + '</p><br>';
+			con += '<b class="size_name">' + res.size_name + '</b>';
+			$('.content').html(con);			
+		},
+		error : function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})
+	//배송정보 가져오기 
+	$.ajax({
+		url : '/Kream/getAdress.do',
+		type : 'post',
+		data : {
+<%-- 			"sizeId" : "<%=sizeId%>" --%>
+			"memId" : "<%=memId%>" 
+		},
+		success : function(res){
+			str='<table><tr><td>받는분</td>';
+			str+='<td>'+ res.mem_name +'</td></tr>';
+			str+='<tr><td>연락처</td>';
+			str+='<td>'+ res.phone_num+'</td></tr>';
+			str+='<tr><td>배송주소</td>';
+			str+='<td>'+ res.addr1 + ' ' + res.addr2 +'</td></tr>';
+			
+		},
+		error : function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})
+	
+	
+	
+})
+</script> 
+</head>
+<body>
+<div class="header">
+	<div class="header_top">
+		<div  class="top_inner">
+			<ul class="top_list">
+				<li class="top_item"><a  href="/notice" class="top_link"> 고객센터 </a></li>
+				<li class="top_item"><a  href="/my/wish" class="top_link"> 관심상품 </a></li>
+				<li class="top_item"><a  href="/my" class="top_link"> 마이페이지 </a></li>
+				<li class="top_item"><a  href="/" class="top_link"> 로그아웃 </a></li>
+			</ul>
+		</div>
+	</div>
+	<hr>
+	<div class="main_inner">
+		<h1><a href="#" aria-label="홈" class="logo">SHOEKREAM</a></h1>
+		<div class="center">
+			<h2 class="title"><span class="title_txt">주문/정산</span></h2>
+		</div>
+		<div class="right">
+			<button type="button" class="btn btn_standard outlinegrey small"> 검수기준 </button>
+		</div>
+	</div>
+</div>
+<form class="main">
+	
+	<div class="prod">
+		<div class="prod_img">
+			<span><%=sizeId %></span>
+		</div>
+		<div class="content">
+		</div>
+	</div>
+	
+	
+	
+	<div class="adress">
+	</div>
+	<div class="point"></div>
+	<div class="orderInfo"></div>
+	<div class="card"></div>
+	<div class="agreement"></div>
+	<input type="submit" class="btn">
+</form>
+</body>
+</html>

@@ -1,0 +1,22 @@
+package kr.or.ddit.kream.bid.service;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.or.ddit.kream.dao.BidDaoImpl;
+
+public class BidServiceImpl {
+
+	private BidDaoImpl dao;  // MemberDao��ü ���� ����
+	private static BidServiceImpl memService;
+	
+	private BidServiceImpl() {
+		dao = BidDaoImpl.getInstance();	// MemberDao��ü ����
+	}
+
+	public static BidServiceImpl getInstance(){
+		if(memService==null) memService = new BidServiceImpl();
+		return memService;
+	}
+	
+	
+}

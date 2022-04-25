@@ -1,0 +1,24 @@
+package kr.or.ddit.kream.service;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.or.ddit.kream.dao.BidDaoImpl;
+
+public class BidServiceImpl {
+
+	private BidDaoImpl dao;  // MemberDao按眉 函荐 急攫
+	private static BidServiceImpl memService;
+	private SqlMapClient smc;
+	
+	private BidServiceImpl() {
+		dao = BidDaoImpl.getInstance();	// MemberDao按眉 积己
+		smc = BuildedSqlMapClient.getSqlMapClient();
+	}
+
+	public static BidServiceImpl getInstance(){
+		if(memService==null) memService = new BidServiceImpl();
+		return memService;
+	}
+	
+	
+}

@@ -1,0 +1,19 @@
+package kr.or.ddit.kream.member.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.or.ddit.kream.vo.MemberVO;
+import kr.or.ddit.kream.vo.MyBuyingListVO;
+
+public interface IMemberService {
+	public int insertMember(MemberVO memberVo);
+	public MemberVO getMember(MemberVO memberVo);
+	public List<MyBuyingListVO> getBidList(Map<String, String> paramap);
+	public List<MyBuyingListVO> searchbuyList(Map<String, String> paramap);
+	public Map<String, Integer> getBuySellCount(String mem_email);
+	public List<Map<String, Object>> wishList(String mem_email);
+}

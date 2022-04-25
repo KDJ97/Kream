@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+#prod_search_list{
+	width : 100%;
+}
+.search_result_item{
+	width : calc(50%-1%);
+	display: inline-block;
+	overflow : hidden;
+}
+.search_result_item .product{
+	width : 100%;
+	display : inline-block;
+	overflow : hidden;
+}
+.search_result_item .image{
+	height : 100%;
+	width: 100%;
+	object-fit : cover;
+}
+.modal_price{
+	text-align: right;
+}

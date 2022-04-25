@@ -1,0 +1,59 @@
+package kr.or.ddit.kream.prod.controller;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.or.ddit.kream.prod.service.IProdService;
+import kr.or.ddit.kream.prod.service.ProdServiceImpl;
+import kr.or.ddit.kream.vo.LikeProdVo;
+
+@WebServlet("/prodLikeUpdate.do")
+public class prodLikeUpdate extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+/*
+ * 관심상품을 클릭하면 관심상품 테이블에 update 되는 메서드 
+ * 
+ * 
+*/	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		request.setCharacterEncoding("utf-8");
+		
+		//prodDetail.jsp에서 get방식으로 보낸 prodid를 받는다
+		String prodid = request.getParameter("prodid");
+		String memid = request.getParameter("memid");
+		System.out.println("파라미터로 받은 prodid : " + prodid);
+		System.out.println("파라미터로 받은 memid : " + memid);
+		
+		LikeProdVo vo = new LikeProdVo();
+		vo.setMem_email(memid);
+		vo.setProd_id(prodid);
+		
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		
+		IProdService service = ProdServiceImpl.getInstance();
+		
+		int result = service.prodLikeInsert(vo);
+		
+		if(result==0) {
+			System.out.println("관심상품 등록 실패..");
+		}else {
+			System.out.println("관심상품 등록 성공!!");
+		}
+//		request.setAttribute("likeinsert", result);
+//		request.getRequestDispatcher("/prodview/prodDetail.jsp").forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

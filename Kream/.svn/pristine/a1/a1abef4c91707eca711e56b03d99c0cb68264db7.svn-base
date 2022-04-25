@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+	<sqlMap namespace = "prod">
+		
+	<select id = "prodlist" resultClass = "mainpageprodVo">
+		select a.prod_id, a.prod_name, b.brand_name, c.photo_path
+		  from prod a, brand b, photo c
+		 where a.prod_id = c.prod_id
+		   and a.brand_id = b.brand_id
+	</select>
+	
+	<select id = "lprodlist" resultClass = "lprodVo">
+		select * from lprod
+	</select>
+	
+	<select id = "prodDetail" resultClass = "prodDetailVo" parameterClass = "string">
+		select a.prod_id,
+		        a.prod_name,
+		      a.prod_resell,
+		      a.org_price,
+		      b.photo_path,
+		      c.brand_name
+		  from prod a, photo b, brand c
+		  where a.prod_id = b.prod_id
+		    and a.brand_id = c.brand_id
+		    and a.prod_id = #prodid#
+	</select>
+	
+	<update id = "prodLikeInsert" parameterClass = "likeprodVo">
+		insert into like_prod values(
+       		(select nvl(max(to_number(like_id)),0)+1 from like_prod),
+     		#mem_email#,
+     		#prod_id#)
+	</update>
+	
+	<select id = "getGraphInfo" resultClass = "graphVo" parameterClass = "graphVo">
+		select c.prod_id, a.bid_id, a.temp_price, a.temp_date, c.size_name
+		  from bid_temp a, bid b, prod_size c
+		 where a.bid_id = b.bid_id
+		   and b.size_id = c.size_id
+		   and c.prod_id = #prod_id#
+		   and c.size_name = #size_name#
+		 order by temp_date
+	</select>
+	
+	<select id = "getRecentPrice" resultClass = "String" parameterClass = "graphVo">
+		select max(e.temp_price) as mprice
+	      from bid_temp e,
+	       (select max(d.mdate) as mmdate 
+	          from (select c.temp_price as tprice, a.prod_id, c.temp_date as mdate
+	                  from prod_size a, bid b, bid_temp c
+	                 where a.SIZE_ID = b.SIZE_ID
+	                   and b.bid_id = c.bid_id
+	                   and a.prod_id = #prod_id#
+	                   and a.SIZE_NAME = #size_name#) d ) f
+	         where e.temp_date = f.mmdate
+	</select>
+	
+	</sqlMap>

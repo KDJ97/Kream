@@ -1,0 +1,28 @@
+package kr.or.ddit.kream.bid.service;
+
+import java.util.Map;
+
+import kr.or.ddit.kream.bid.dao.BidDaoImpl;
+
+public class BidServiceImpl implements IBidService{
+
+	private BidDaoImpl dao;  // MemberDao��ü ���� ����
+	private static BidServiceImpl memService;
+	
+	private BidServiceImpl() {
+		dao = BidDaoImpl.getInstance();	// MemberDao��ü ����
+	}
+
+	public static BidServiceImpl getInstance(){
+		if(memService==null) memService = new BidServiceImpl();
+		return memService;
+	}
+
+	@Override
+	public int getPrice(Map<String, String> paramap) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
+}

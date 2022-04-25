@@ -1,0 +1,17 @@
+package kr.or.ddit.kream.bid.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+
+import kr.or.ddit.kream.vo.BidVo;
+
+public interface IBidDao {
+	
+	public List<BidVo> sellInfo(String prodid) throws SQLException;	
+	
+	
+	
+	
+}

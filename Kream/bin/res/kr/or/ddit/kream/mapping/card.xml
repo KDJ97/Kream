@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="card">
+<insert id="insertCard" parameterClass="cardVo">
+	 insert into card_data(
+        mem_email  
+        ,card_number  
+        ,expiry      
+        ,birth        
+        ,pwd_2digit  
+        ,customer_uid 
+        ) values(
+        (select mem_id from member where mem_email=#mem_email#),
+        ,#card_number#  
+        ,#expiry#      
+        ,#birth#        
+        ,#pwd_2digit#  
+        ,#customer_uid# 
+        )
+</insert>
+<select id="selectCard" parameterClass="memId" resultClass="cardVo">
+	 	select A.card_number  
+              ,A.expiry      
+              ,A.birth        
+              ,A.pwd_2digit  
+              ,A.customer_uid  
+         from card_data A, member B 
+         where B.mem_id = #memid#;
+</select>
+
+</sqlMap>	

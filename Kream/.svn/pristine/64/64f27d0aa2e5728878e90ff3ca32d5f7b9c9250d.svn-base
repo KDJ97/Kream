@@ -1,0 +1,16 @@
+package kr.or.ddit.kream.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.or.ddit.kream.vo.ProdVo;
+
+public interface IProdService {
+
+	/**
+	 * prod의 모든 정보를 가져오는 메서드
+	 * 
+	 * @return 리스트 prodvo객체를 담은 반환
+	 */
+	public List<ProdVo> prodList() throws SQLException;
+}

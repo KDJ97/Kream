@@ -1,0 +1,129 @@
+package kr.or.ddit.kream.card.service;
+
+import java.sql.SQLException;
+import java.util.Map;
+
+import kr.or.ddit.kream.card.dao.IOrderDao;
+import kr.or.ddit.kream.card.dao.OrderDaoImpl;
+import kr.or.ddit.kream.vo.AddressVo;
+import kr.or.ddit.kream.vo.BidVo;
+import kr.or.ddit.kream.vo.ProdDetailVo;
+
+public class OrderServiceImpl implements IOrderService {
+	private static IOrderDao dao;
+	private static IOrderService service;
+	
+	public OrderServiceImpl() {
+		dao = OrderDaoImpl.getInstance();
+	}
+	
+	public static IOrderService getInstance() {
+		if(service == null) service = new OrderServiceImpl();
+		return service;
+	}
+	
+
+	@Override
+	public BidVo selectOrderBid(Map<String, Object> map) {
+		BidVo vo = new BidVo();
+		try {
+			vo = dao.selectOrderBid(map);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return vo;
+	}
+
+	@Override
+	public BidVo pointchk(String bidId) {
+		BidVo vo = new BidVo();
+		try {
+			vo = dao.pointchk(bidId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return vo;
+	}
+
+	@Override
+	public int insertBidTemp(BidVo bidVo) {
+		int cnt = 0;
+		try {
+			cnt = dao.insertBidTemp(bidVo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	@Override
+	public int updateBidState(Map<String, Object> map) {
+		int cnt = 0;
+		try {
+			cnt = dao.updateBidState(map);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	@Override
+	public int insertOrder(BidVo bidVo) {
+		int cnt = 0;
+		try {
+			cnt = dao.insertOrder(bidVo);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	@Override
+	public BidVo selectSellBid(Map<String, Object> map) {
+		BidVo vo = new BidVo();
+		try {
+			vo = dao.selectSellBid(map);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return vo;
+	}
+
+	@Override
+	public int updatePoint(Map<String, Object> map) {
+		int cnt = 0;
+		try {
+			cnt = dao.updatePoint(map);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cnt;
+	}
+
+	@Override
+	public ProdDetailVo selectProd(String sizeId) {
+		ProdDetailVo vo = new ProdDetailVo();
+		try {
+			vo = dao.selectProd(sizeId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return vo;
+	}
+
+	@Override
+	public AddressVo selectAdressOne(String memId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

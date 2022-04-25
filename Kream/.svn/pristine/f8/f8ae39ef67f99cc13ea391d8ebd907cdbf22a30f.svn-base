@@ -1,0 +1,97 @@
+package kr.or.ddit.kream.prod.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.or.ddit.kream.vo.GraphVo;
+import kr.or.ddit.kream.vo.LikeProdVo;
+import kr.or.ddit.kream.vo.LprodVo;
+import kr.or.ddit.kream.vo.MainPageProdVo;
+import kr.or.ddit.kream.vo.ProdDetailVo;
+
+public interface IProdDao {
+	
+	/**
+	 * 메인페이지에 필요한 상품의 정보를 불러오는 메서드
+	 * @return MainPageProdVo를 담은 리스트 반환
+	 * @throws SQLException
+	 */
+	public List<MainPageProdVo> prodList() throws SQLException;
+
+	/**
+	 * 카테고리에 필요한 lprod정보를 불러오는 메서드
+	 * 
+	 * @return lprodvo을 담은 리스트 반환
+	 * @throws SQLException
+	 */
+	public List<LprodVo> lprodlist() throws SQLException;
+	
+	/**
+	 * 상품 상세페이지에 필요한 정보를 불러오는 메서드
+	 * 
+	 * @return ProdDetailVo를 담은 리스트 반환
+	 * @throws SQLException
+	 */
+	public ProdDetailVo prodDetail(String prodid) throws SQLException;
+	
+	/**
+	 * 관심상품 인서트하는 메서드
+	 * @param 
+	 * @return
+	 * @throws SQLException
+	 */
+	public int prodLikeInsert(LikeProdVo vo) throws SQLException;
+	
+	/**
+	 * 그래프에 필요한 정보를 반환하는 메서드
+	 *  
+	 * @param vo
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<GraphVo> getGraphInfo(GraphVo vo) throws SQLException;
+	
+	/**
+	 * 최근거래가 정보 반환
+	 * 
+	 * @param vo
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getRecentPrice(GraphVo vo) throws SQLException;
+	
+	/**
+	 * 관심상품 중복 체크
+	 * 
+	 * @param vo
+	 * @return
+	 * @throws SQLException
+	 */
+	public int checkLikeProd(LikeProdVo vo) throws SQLException;
+
+	/**
+	 * 관심상품 삭제 메서드
+	 * 
+	 * @param vo
+	 * @return
+	 * @throws SQLException
+	 */
+	public int deleteLikeProd(LikeProdVo vo) throws SQLException;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

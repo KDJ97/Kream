@@ -1,0 +1,258 @@
+<%@page import="java.util.Map"%>
+<%@page import="kr.or.ddit.kream.vo.MyBuyingListVO"%>
+<%@page import="java.util.List"%>
+<%@page import="kr.or.ddit.kream.vo.MemberVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<%
+	MemberVO memberVo = (MemberVO)session.getAttribute("memberVo");
+	
+%>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$.ajax({
+		url : '<%= request.getContextPath()%>/wishList.do',
+		type : 'post',
+		success : function(res){
+			code="";
+			$.each(res,function(i,v){
+			code += '<div style="border: 1px solid blue;">'
+			code += '	<div class="wish-detail" style="border: 1px solid black; display: flex;">'
+			code += '		<div class="wish_thumb">'
+			code += '			<img alt="" src="' + v.PHOTO_PATH + '">'
+			code += '		</div>'
+			code += '		<div class="prod_brand" style="margin: auto 0px;">'
+			code += '			<strong>' + v.BRAND_NAME + '</strong>'
+			code += '			<p>' + v.PROD_NAME + '</p>'
+			code += '		</div>'
+			code += '		<div class="delete" style="margin: auto 0px; margin-left: auto">'
+			code += '			<div id="gobuying" style="padding: 0px 0px; padding-right: 20px; margin-right: 20px;">'
+			code += '				<table>'
+			code += '					<tr>'
+			code += '						<td rowspan="2" id="buying" style="border-right: 1px solid; padding: 5px 5px;">구매</td>'
+			code += '						<td style="padding: 5px 5px; padding-bottom: 0px; font-size: 15px;">' + v.PROD_RESELL + '</td>'
+			code += '					</tr>'
+			code += '					<tr>'
+			code += '						<td id="resell" style="padding: 5px 5px; font-size: 12px;">현재 시세</td>'
+			code += '					</tr>'
+			code += '				</table>'
+			code += '			</div>'
+			code += '		</div>'
+			code += '		<img alt="" src="/Kream/img/icon/delete_4219.png" style="width: 40px; height: 40px; margin: auto 0px; margin-right: 20px">'			                                                                                                     
+			code += '	</div>'
+			code += '</div>'
+			});
+			
+			$('#result').html(code);
+			
+		},
+		error : function(xhr){
+			alert("상태 " + xhr.status);
+		},
+		dataType : 'json'
+	});
+})
+
+</script>
+
+
+
+<style>
+div{
+	display: block;
+	box-sizing: border-box;
+}
+nav{
+	border : 1px solid black;
+	box-sizing: border-box;
+	display: block;
+}
+a, a:hover{
+	text-decoration: none;
+	color: black;
+}
+.top_line a{
+
+	font-size: 12px;
+}
+.container.my{
+	margin: 0 auto;
+	padding: 40px 40px 0px;
+	max-width: 1280px;
+}
+.text-end li{
+	float: left;
+	list-style: none;
+	margin-left: 20px;
+}
+.meun{
+	list-style: none;
+}
+.left_meun{
+	width: 180px;
+	margin-left: 50px;
+	float: left;
+}
+.mytitle{
+	font-size: 24px;
+}
+.meun.title{
+	font-size: 18px;
+	padding-top: 30px;
+}
+.meun.item{
+	font-size: 15px;
+	padding-top: 12px;
+}
+.meun.item a{
+
+	color: rgba(34,34,34,0.5);
+}
+
+.title{
+	font-weight: 700;
+}
+img {
+	width: 100px;
+	height: 100px;
+}
+.wish_thumb{
+	position: relative;
+    margin-right: 12px;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+}
+p{
+	margin-bottom: 0px;
+}
+#gobuying{
+	padding: 0px 0px;
+	border-style: none;
+	background: #ef6253;
+	border-radius: 10px;
+    color: #fff;
+   
+}
+#gobuying ul{
+	list-style: none;
+	padding-left: 0px;
+}
+
+#gobuying li{
+	float: left;
+	height: 100%;
+	
+}
+
+#buyingtitle{
+	border-right: 1px solid;
+}
+
+</style>
+</head>
+<body style="padding-top: 50px;">
+<div class="top_line fixed-top border-bottom text-end" style="height: 50px; display: flex; line-height: 50px; padding-right: 20px; background: white;">
+	<ul class = "text-end" style="margin-left: auto;">
+		<li><a class="top_line" href="#">고객센터</a></li>
+		<li><a class="top_line" href="<%= request.getContextPath() %>/MyPage.do">마이페이지</a></li>
+<%
+	if(memberVo == null){
+%>
+		<li id="login"><a href="<%= request.getContextPath() %>/member/loginForm.jsp">로그인</a></li>
+
+		
+<% }else{ %>
+		<li id="logout"><a href="<%= request.getContextPath() %>/Logout.do">로그아웃</a></li>
+<%
+	}
+%>
+	</ul>
+	
+</div>
+
+
+<div class="container my">
+	<div class="left_meun">
+	    <a class="mytitle" href="<%= request.getContextPath()%>/member/myPage.jsp">마이 페이지</a>
+	    <ul class="meun" style="padding-left: 0px;">	
+			<li class="meun title">쇼핑 정보</li>
+			
+			<li class="meun item"><a href="<%= request.getContextPath() %>/buyingList.do">구매 내역</a></li>
+			<li class="meun item"><a href="<%= request.getContextPath() %>/member/my/shopinfo/selling.jsp">판매 내역</a></li>
+			<li class="meun item"><a href="<%= request.getContextPath() %>/member/my/shopinfo/wish.jsp" style="color: black; font-weight: 700;">관심 상품</a></li>
+			
+			<li class="meun title">내 정보</li>
+			
+			<li class="meun item"><a href="/Kream/member/my/myinfo/profile.jsp">프로필 정보</a></li>
+			<li class="meun item"><a href="/Kream/member/my/myinfo/payment.jsp">결제 정보</a></li>
+			<li class="meun item"><a href="/Kream/member/my/myinfo/point.jsp">포인트</a></li> 	
+	    </ul>
+	</div>
+	
+	<div class="my-home-area" style="overflow: hidden;">
+		<div class="my-home">
+			
+			<div style="border: 1px solid blue; align-items: center;">
+				<div class="buying-title" style=" margin-left: auto; margin-right:50px;">
+					<h3>관심 상품</h3>
+				</div>
+			</div>
+			
+			<div id="result">
+				<div style="border: 1px solid blue;">
+				<div class="wish-detail" style="border: 1px solid black; display: flex;">
+					<div class="wish_thumb">
+						<img alt="" src="/Kream/img/Jordan/(W) Jordan 1 Mid Wolf Grey.jpg">
+					</div>
+					
+					<div class="prod_brand" style="margin: auto 0px;">
+						<strong>brand</strong>
+						<p>prod_name</p>
+					</div>
+					
+					<div class="delete" style="margin: auto 0px; margin-left: auto">
+						<div id="gobuying" style="padding: 0px 0px; padding-right: 20px; margin-right: 20px;">
+							<table>
+								<tr>
+									<td rowspan='2' id="buying" style="border-right: 1px solid; padding: 5px 5px;">구매</td>
+									<td style="padding: 5px 5px; padding-bottom: 0px; font-size: 15px;">100000000</td>
+								</tr>
+								
+								<tr>
+						
+									<td id="resell" style="padding: 5px 5px; font-size: 12px;">현재 시세</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					
+					<img alt="" src="/Kream/img/icon/delete_4219.png" style="width: 40px; height: 40px; margin: auto 0px; margin-right: 20px">
+									
+				</div>
+			</div>
+			
+			
+
+			
+			
+					
+		</div>
+	</div>	
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+package kr.or.ddit.kream.dao;
+
+import java.sql.SQLException;
+
+import kr.or.ddit.kream.vo.CardVo;
+
+public interface ICardDao {
+	public int insertCard(CardVo cardvo) throws SQLException; //카드 등록
+	public CardVo selectCard(String memId)throws SQLException; //카드 정보 불러오기 
+}

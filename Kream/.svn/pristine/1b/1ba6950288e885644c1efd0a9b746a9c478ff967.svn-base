@@ -1,0 +1,74 @@
+package kr.or.ddit.kream.prod.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.kream.prod.dao.IProdDao;
+import kr.or.ddit.kream.prod.dao.ProdDaoImpl;
+import kr.or.ddit.kream.vo.LprodVo;
+import kr.or.ddit.kream.vo.MainPageProdVo;
+import kr.or.ddit.kream.vo.ProdDetailVo;
+
+
+public class ProdServiceImpl implements IProdService{
+	
+	private static IProdDao dao;
+	private static IProdService service;
+	
+	private ProdServiceImpl() {
+		dao = ProdDaoImpl.getInstance();
+	}
+
+	public static IProdService getInstance() {
+		if(service == null) service = new ProdServiceImpl();
+		return service;
+	}
+
+	//상품의 모든 정보를 가져오는 메서드
+	@Override
+	public List<MainPageProdVo> prodList(){
+
+		List<MainPageProdVo> list = null;
+		
+		try {
+			list = dao.prodList();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<LprodVo> lprodlist() {
+
+		List<LprodVo> list = null;
+		
+		try {
+			list = dao.lprodlist();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	@Override
+	public ProdDetailVo prodDetail(String prodid) {
+
+		ProdDetailVo vo = null;
+		
+		try {
+			vo = dao.prodDetail(prodid);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return vo;
+	}
+	
+}

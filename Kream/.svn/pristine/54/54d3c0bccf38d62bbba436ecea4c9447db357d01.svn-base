@@ -1,0 +1,269 @@
+<%@page import="kr.or.ddit.kream.vo.SizeVo"%>
+<%@page import="java.util.List"%>
+<%@page import="kr.or.ddit.kream.vo.PhotoVo"%>
+<%@page import="kr.or.ddit.kream.vo.BidVo"%>
+<%@page import="java.util.Map"%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+<%
+	String prodid = (String) request.getAttribute("prodid");
+	String size_name = (String) request.getAttribute("size_name");
+	String bid_price = (String) request.getAttribute("bid_price");
+	
+	String sizeId = (String) request.getParameter("size_id"); // 추가
+
+%>
+ 
+ <script>
+  
+ function proc1(){  
+	 /* 
+out+='	 <div data-v-ad4501b2="" data-v-0e569256="" class="price_now active_input">
+out+='     <dl data-v-ad4501b2="" class="price_now_box">                                                                                                                                                            ';
+out+='           <dt data-v-ad4501b2="" class="price_now_title"> 판매 희망가 </dt>                                                                                                                                  ';
+out+='           <dd data-v-ad4501b2="" class="price">                                                                                                                                                              ';
+out+='                <input data-v-ad4501b2="" type="text" pattern="([0-9]+.{0,1}[0-9]*,{0,1})*[0-9]" required="required" placeholder="희망가 입력" autocomplete="off" class="input_amount">                       ';
+out+='                <span data-v-ad4501b2="" class="unit">원</span>                                                                                                                                               ';
+out+='           </dd>                                                                                                                                                                                              ';
+out+='     </dl>                                                                                                                                                                                                    ';
+out+='<div data-v-ad4501b2="" class="price_warning" style="display: none;">                                                                                                                                         ';
+out+='</div>                                                                                                                                                                                                        ';
+out+='</div>                                                                                                                                                                                                        ';
+out+='<div data-v-0e569256="" class="price_bind">                                                                                                                                                                   ';
+out+='   <dl data-v-7d068cac="" data-v-0e569256="" class="price_addition">                                                                                                                                          ';
+out+='        <dt data-v-7d068cac="" class="price_title">                                                                                                                                                           ';
+out+='              <span data-v-7d068cac="">검수비</span>                                                                                                                                                          ';
+out+='        </dt>                                                                                                                                                                                                 ';
+out+='        <dd data-v-7d068cac="" class="price_text">-                                                                                                                                                           ';
+out+='         </dd>                                                                                                                                                                                                ';
+out+='   </dl>                                                                                                                                                                                                      ';
+out+='    <dl data-v-7d068cac="" data-v-0e569256="" class="price_addition">                                                                                                                                         ';
+out+='           <dt data-v-7d068cac="" class="price_title">                                                                                                                                                        ';
+out+='                 <span data-v-7d068cac="">수수료</span>                                                                                                                                                       ';
+out+='                  <button data-v-7d068cac="" class="btn_title">                                                                                                                                               ';
+out+='                      <svg data-v-7d068cac="" xmlns="http://www.w3.org/2000/svg" class="icon sprite-icons info-circle-white">                                                                                 ';
+out+='                          <use data-v-7d068cac="" href="/_nuxt/3eb827d04a461ab3eecd387024737978.svg#i-info-circle-white" xlink:href="/_nuxt/3eb827d04a461ab3eecd387024737978.svg#i-info-circle-white"></use>  ';
+out+='                       </svg>                                                                                                                                                                                 ';
+out+='                   </button>                                                                                                                                                                                  ';
+out+='           </dt>                                                                                                                                                                                              ';
+out+='           <dd data-v-7d068cac="" class="price_text">-                                                                                                                                                        ';
+out+='            </dd>                                                                                                                                                                                             ';
+out+='     </dl>                                                                                                                                                                                                    ';
+out+='      <dl data-v-7d068cac="" data-v-0e569256="" class="price_addition">                                                                                                                                       ';
+out+='          <dt data-v-7d068cac="" class="price_title">                                                                                                                                                         ';
+out+='                 <span data-v-7d068cac="">배송비</span>                                                                                                                                                       ';
+out+='          </dt>                                                                                                                                                                                               ';
+out+='          <dd data-v-7d068cac="" class="price_text">선불 ・ 판매자 부담                                                                                                                                        ';
+out+='          </dd>                                                                                                                                                                                               ';
+out+='     </dl>                                                                                                                                                                                                    ';
+out+='</div>                                                                                                                                                                                                        ';
+out+='<div data-v-4963821f="" data-v-11b9fb8e="" class="deadline_info_area">                                                                                                                                        ';
+out+='    <div data-v-4963821f="" class="section_title">                                                                                                                                                            ';
+out+='          <h3 data-v-4963821f="" class="title_txt">입찰 마감기한</h3>                                                                                                                                         ';
+out+='    </div>                                                                                                                                                                                                    ';
+out+='    <div data-v-4963821f="" class="section_content">                                                                                                                                                          ';
+out+='          <div data-v-4963821f="" class="bid_deadline">                                                                                                                                                       ';
+out+='                  <p data-v-4963821f="" class="deadline_txt"> 30일 (2022/05/18 마감) </p>                                                                                                                     ';
+out+='                <div data-v-4963821f="" class="deadline_tab">                                                                                                                                                 ';
+out+='                      <a data-v-3d1bcc82="" data-v-4963821f="" href="#" class="btn outlinegrey medium"> 1일 </a>                                                                                              ';
+out+='                      <a data-v-3d1bcc82="" data-v-4963821f="" href="#" class="btn outlinegrey medium"> 3일 </a>                                                                                              ';
+out+='                       <a data-v-3d1bcc82="" data-v-4963821f="" href="#" class="btn outlinegrey medium"> 7일 </a>                                                                                             ';
+out+='                        <a data-v-3d1bcc82="" data-v-4963821f="" href="#" class="btn outlinegrey medium is_active"> 30일 </a>                                                                                 ';
+out+='                        <a data-v-3d1bcc82="" data-v-4963821f="" href="#" class="btn outlinegrey medium"> 60일 </a>                                                                                           ';
+                 </div>                                                                                                                                                                                             ';
+           </div>                                                                                                                                                                                                   ';
+     </div>                                                                                                                                                                                                         ';
+</div>                                                                                                                                                                                                              ';
+<div data-v-5a267ac3="" data-v-11b9fb8e="" class="buy_total_price">                                                                                                                                                 ';
+     <div data-v-158fe9dc="" data-v-5a267ac3="" class="price_total">                                                                                                                                                ';
+           <dl data-v-158fe9dc="" class="price_box">                                                                                                                                                                ';
+                   <dt data-v-158fe9dc="" class="price_title"> 정산금액 </dt>                                                                                                                                       ';
+                   <dd data-v-158fe9dc="" class="price empty_price">                                                                                                                                                ';
+                            <span data-v-158fe9dc="" class="amount">-</span>                                                                                                                                        ';
+                             <span data-v-158fe9dc="" class="unit"></span>                                                                                                                                          ';
+                    </dd>                                                                                                                                                                                           ';
+             </dl>                                                                                                                                                                                                  ';
+            <span data-v-158fe9dc="" class="price_warning" style="display: none;"><em data-v-158fe9dc="">주의! </em>                                                                                                ';
+             </span>                                                                                                                                                                                                ';
+      </div>                                                                                                                                                                                                        ';
+      <a data-v-3d1bcc82="" data-v-5a267ac3="" disabled="disabled" href="#" class="btn full solid false disabled"> 판매 입찰 계속 </a>                                                                              ';
+</div>                                                                                                                                                                                                              ';
+  */
+                                                  
+ 
+ /* out="	        <span class='amount'>판매 </span>               "     ;  */ 
+/* document.getElementById('result').innerHTML = out;	 */  
+
+ }
+ 
+ 
+ 
+ 
+ function proc2(){
+	
+	 out="	 <div class='price_now'>                                     "     ;
+	 out+="	   <dl class='price_now_box'>                                "     ;
+	 out+="	     <dt class='price_now_title'>즉시판매가</dt>                 "    ;
+	 out+="	       <dd class='price'>                                    "     ;
+	 out+="	         <span class='amount'>'<%=bid_price %>'</span>     "     ;
+	 out+="	         <span class='unit'>원</span>                        "     ;
+	 out+="	        </dd>                                                "     ;
+	 out+="	   </dl>                                                     "     ;
+	 out+="   <div class='price_warning' style='display:none;'></div>     "    ;
+	 out+="	 </div>                                                       "     ; //<!-- price_now끝 -->
+
+	 out+="	 <div class='price_bind'>                                    "     ;
+	 out+="	   <dl class='price_addition'>                               "     ;
+	 out+="	      <dt class='price_title'>                               "     ;
+	 out+="	        <span>검수비</span>                                    "     ;
+	 out+="	       </dt>                                                 "     ;
+	 out+="	       <dd class='price_text'>                               "     ;
+	 out+="	            무료                                              "     ;
+	 out+="	       </dd>                                                 "     ;
+	 out+="	   </dl>                                                     "     ;
+	 out+="	   <dl class='price_addition'>                               "     ;
+	 out+="	      <dt class='price_title'>                               "     ;
+	 out+="	        <span>수수료</span>                                    "     ;
+	 out+="	       </dt>                                                 "     ;
+	 out+="	       <dd class='price_text'>무료                             "     ;
+	 out+="	       </dd>                                                 "     ;
+	 out+="	   </dl>                                                     "     ;
+	 out+="	   <dl class='price_addition'>                               "     ;
+	 out+="	      <dt class='price_title'>                               "     ;
+	 out+="	        <span>배송비</span>                                    "     ;
+	 out+="	       </dt>                                                 "     ;
+	 out+="	       <dd class='price_text'>선불˙ 판매자 부담                   "     ;
+	 out+="	       </dd>                                                 "     ;
+	 out+="	   </dl>                                                     "     ;
+	 out+="	<div class='buy_total_price'>                                "     ;
+	 out+="	  <div class='price_total'>                                  "     ;
+	 out+="	    <dl class='price_box'>                                   "     ;
+	 out+="	      <dt class='price_title'>정산금액</dt>                     "    ;
+	 out+="	      <dd class='price'>                                     "     ;
+	 out+="	        <span class='amount'>정산금액 떠야됨</span>               "     ;  
+	 out+="	        <span class='unit'>원</span>                         "      ;
+	 out+="	       </dd>                                                 "     ;
+	 out+="	    </dl>                                                    "     ;
+	 out+="	  </div>                                                     "     ;//<!-- class="price_total" -->
+	 out+="	  <a class='btn full solid false'>즉시 판매 계속</a>             "     ; 
+	 out+="	 </div>                                                      "     ;//<!-- class="buy_total_price" -->
+	
+	 
+ /* out="	        <span class='amount'>정산금액 떠야됨</span>               "     ;  */ 
+ document.getElementById('result').innerHTML = out;	 
+ 
+ }
+ 
+ 
+ 
+ 
+ 
+	 $(function(){
+		 
+			// 상품 사진, prod_id,prod_name
+			$.ajax({
+				url : "/Kream/SellLastPhoto.do",
+				type : 'get',
+				data : {
+					"prodid" : "<%=prodid%>"
+				},
+				success : function(res){
+		         
+					//str += '    <div class="product" style=background:rgb(246,238,237);>';
+					str = '		<img width="100px" id = "shoeimg" src = "' + res.photo_path + '" alt = "' + res.prod_name +'">';
+					str += '					<h4 class = "brand">' + res.brand_name + '</h4>';
+					str += '					<p class = "title">' + res.prod_name + '</p>';	
+					str += '					<p class = "title">' + <%=size_name%> + '</p>';	
+				
+					
+		           
+					$('.photo').html(str);
+					
+				},
+				error : function(xhr){
+					alert("상태 : " + xhr.status);
+				},
+				dataType : 'json'
+			})
+				
+			
+		  })
+ 
+ </script>
+
+
+<style>
+.price_text{
+	 text-indent:100px; 
+	margin-left: 50px;
+}
+
+</style>
+
+
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<h1>즉시판매하기</h1>
+
+<div class="photo"></div>
+
+
+
+
+<div class="price_descision">
+ <ul class="price_list">
+   <li class="list_item">
+     <p class="title">즉시 구매가</p>
+     <span class="price">220,000</span>
+     <span class="unit">원</span>
+   </li>
+   <li class="list_item">
+     <p class="title">즉시 판매가</p>
+     <span class="price"><%=bid_price %></span>
+     <span class="unit">원</span>
+   </li>
+ </ul>
+<div class="instant_group">
+  <div class="tab_area buy_tab">
+    <ul class="tab_list">
+       <li class="item">
+          <a class="item_link" onclick="proc1()">판매입찰</a>
+        </li>
+        <li class="item on">
+          <a class="item_link" onclick="proc2()">즉시 판매</a>
+        </li>
+    </ul>
+  </div><!-- class="tab_area buy_tab" -->
+  
+<div id="result"></div>
+
+<!--  <a href = "/Kream/SellOrder.do" class = "btn_division sell">판매계속</a>  -->
+<a href = "/Kream/SellOrder.do?size_name=<%=size_name %>&bid_price=<%=bid_price %>&prodid=<%=prodid %>&sizeId=<%=sizeId%> " class = "btn_division sell">판매계속</a>
+
+</div> <!-- class="instant_group" -->
+</div><!-- class="price_descision_box" -->
+</div><!-- class="price_descision" -->
+
+
+
+
+</body>
+</html>

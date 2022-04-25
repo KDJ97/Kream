@@ -1,0 +1,7 @@
+package kr.or.ddit.kream.dao;
+
+public interface IProdDao {
+	
+	
+
+}

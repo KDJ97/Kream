@@ -1,0 +1,44 @@
+package kr.or.ddit.kream.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.or.ddit.kream.service.IBidService;
+
+/**
+ * Servlet implementation class sellSize
+ */
+@WebServlet("/sellSize.do")
+public class sellSize extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		// 가격정보 가지고 동의 jsp 가기
+		
+		
+		
+		
+		request.setCharacterEncoding("utf-8");
+		IBidService service = MemberServiceImpl.getInstance();
+		
+		List<MemberVO> memList = service.getMemberList();
+		request.setAttribute("memberList", memList);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/memberList.jsp");
+		rd.forward(request, response);
+	
+	
+	
+	}
+
+	
+
+}

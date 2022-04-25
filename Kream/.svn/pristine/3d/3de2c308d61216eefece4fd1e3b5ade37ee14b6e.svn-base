@@ -1,0 +1,45 @@
+package kr.or.ddit.kream.bid.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.or.ddit.kream.bid.service.BidServiceImpl;
+import kr.or.ddit.kream.bid.service.IBidService;
+import kr.or.ddit.kream.vo.BidVo;
+
+/**
+ * Servlet implementation class SellInfo
+ */
+@WebServlet("/SellInfo.do")
+public class SellInfo extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	
+		request.setCharacterEncoding("utf-8");
+	    IBidService service = BidServiceImpl.getInstance();
+	    
+	    //상품 상세페이지에서 prod_id 가져오기
+	    String prod_id = request.getParameter("prod_id");
+	    
+	    List<BidVo> list = null;
+	    
+		list = service.sellInfo(prod_id);
+	    
+	    request.setAttribute("list", list);
+	    
+	    //상품 사이즈 페이지로 이동하기
+	    request.getRequestDispatcher("bid/sell.jsp").forward(request, response);
+	
+	
+	}
+
+
+}

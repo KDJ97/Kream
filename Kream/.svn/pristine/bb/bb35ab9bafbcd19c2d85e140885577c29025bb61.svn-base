@@ -1,0 +1,10 @@
+package kr.or.ddit.kream.prod.dao;
+
+import java.util.List;
+import java.util.Map;
+
+public interface IProdDao {
+	
+	public List<Map<String, String>> prodList();
+
+}

@@ -1,0 +1,260 @@
+/**
+ * 
+ */
+//모든사이즈의 그래프 출력
+var getFirstGraph = function(prodid){
+		//사이즈를 가져온다
+//		sizenm = $(this).val();
+		$.ajax({
+			url : '/Kream/AllGraphInfo.do', 
+			type : 'get',
+			data : {
+				"prodid" : prodid
+			},
+			success : function(res){
+				//dao, service, servlet 만들고 select로 출력문 만들기,
+				// select 이벤트가 발생되면 select된 size_name의 값을 얻고
+				// size_name의 값을 조건으로 넣은 쿼리문으로 또 이벤트 따로 만들기
+				if(res.length == 0){
+					alert("낙찰된 사례가 없습니다");
+				}else{
+					fdate = res[0].temp_date;
+					$.each(res, function(i, v){
+						xArray.push(v.temp_date);
+						yArray.push(parseInt(v.temp_price));
+						ldate = v.temp_date;
+					})
+					
+					var graphData = [{
+						  x: xArray,
+						  y: yArray,
+						  mode:"lines"
+						}];
+					
+					maxPrice = Math.max(...yArray);
+					minPrice = Math.min(...yArray);
+					
+						// Define Layout
+						var layout = {
+						  xaxis: {range: [new Date(fdate), new Date(ldate)]},
+						  yaxis: {range: [minPrice, maxPrice]},  
+						  title: "시세"
+						};
+// 						$('#graph_tab_area').remove();
+						// Display using Plotly
+						Plotly.newPlot("tab_area", graphData, layout);
+// 					alert(xArray + "/" + yArray + "/" + fdate + "/" + ldate);
+				}
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status);
+			},
+			dataType : 'json'
+		})
+}
+
+//사이즈를 선택하면 그 사이즈의 그래프 출력
+var getSizeGraph = function(prodid, sizenm){
+		
+		$.ajax({
+			url : '/Kream/GraphInfo.do', 
+			type : 'get',
+			data : {
+				"prodid" : prodid,
+				"sizename" : sizenm
+			},
+			success : function(res){
+				//dao, service, servlet 만들고 select로 출력문 만들기,
+				// select 이벤트가 발생되면 select된 size_name의 값을 얻고
+				// size_name의 값을 조건으로 넣은 쿼리문으로 또 이벤트 따로 만들기
+				if(res.length == 0){
+					alert("낙찰된 사례가 없습니다");
+				}else{
+					fdate = res[0].temp_date;
+					$.each(res, function(i, v){
+						xArray.push(v.temp_date);
+						yArray.push(parseInt(v.temp_price));
+						ldate = v.temp_date;
+					})
+					
+					var graphData = [{
+						  x: xArray,
+						  y: yArray,
+						  mode:"lines"
+						}];
+					
+					maxPrice = Math.max(...yArray);
+					minPrice = Math.min(...yArray);
+					
+						// Define Layout
+						var layout = {
+						  xaxis: {range: [new Date(fdate), new Date(ldate)]},
+						  yaxis: {range: [minPrice, maxPrice]},  
+						  title: "시세"
+						};
+ 						$('#graph_tab_area').remove();
+						// Display using Plotly
+						Plotly.newPlot("tab_area", graphData, layout);
+// 					alert(xArray + "/" + yArray + "/" + fdate + "/" + ldate);
+				}
+			},
+			error : function(xhr){
+				alert("상태 : " + xhr.status);
+			},
+			dataType : 'json'
+		})
+}
+
+//체결 거래 내역 출력
+var getTranscation1 = function(prodid){
+	var tran = "";
+	$.ajax({
+		url : '/Kream/bidTrans.do',
+		type : 'get',
+		data : {
+			"prodid" : prodid
+		},
+		success : function(res){
+			tran += '<div class = "table_wrap lg">';
+			tran += '	<table border = "1">';	
+			tran += '		<caption><span class = "blind">데이터 테이블</span></caption>';
+			tran += '		<thead>';
+			tran += '			<tr>';
+			tran += '				<th class = "table_th">사이즈</th>';
+			tran += '				<th class = "table_th align-right">거래가</th>';
+			tran += '				<th class = "table_th align-right">거래일</th>';
+			tran += '			</tr>';
+			tran += '		</thead>';
+			tran += '		<tbody>';
+
+			$.each(res, function(i,v){
+				tran += '			<tr>';
+				tran += '				<td class = "table_td">' + v.size_name + '</td>';
+				tran += '				<td class = "table_td align-right">' + v.temp_price + '</td>';
+				tran += '				<td class = "table_td align-right">' + v.temp_date + '</td>';
+				tran += '			</tr>';
+				
+			})
+			tran += '		</tbody>';
+			tran += '	</table>';
+			tran += '</div>';
+			
+			$('#panel1').empty();
+			$('#panel1').html(tran);
+			
+		},
+		error : function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType : "json"
+	})	
+}
+
+var getTranscation2 = function(prodid, position){
+	var tran = "";
+	$.ajax({
+		url : '/Kream/bidTrans2.do',
+		type : 'get',
+		data : {
+			"prodid" : prodid,
+			"position" : position
+		},
+		success : function(res){
+			tran += '<div class = "table_wrap lg">';
+			tran += '	<table border = "1">';	
+			tran += '		<caption><span class = "blind">데이터 테이블</span></caption>';
+			tran += '		<thead>';
+			tran += '			<tr>';
+			tran += '				<th class = "table_th">사이즈</th>';
+			tran += '				<th class = "table_th align-right">거래가</th>';
+			tran += '				<th class = "table_th align-right">거래일</th>';
+			tran += '			</tr>';
+			tran += '		</thead>';
+			tran += '		<tbody>';
+
+			$.each(res, function(i,v){
+				tran += '			<tr>';
+				tran += '				<td class = "table_td">' + v.size_name + '</td>';
+				tran += '				<td class = "table_td align-right">' + v.bid_price + '</td>';
+				tran += '				<td class = "table_td align-right">' + v.bid_date + '</td>';
+				tran += '			</tr>';
+				
+			})
+			tran += '		</tbody>';
+			tran += '	</table>';
+			tran += '</div>';
+			
+			$('#panel1').empty();
+			$('#panel1').html(tran);
+			
+		},
+		error : function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType : "json"
+	})	
+}
+
+//상품의 최신 거래가
+var GetRecentPrice = function(prodid, sizenm){
+	
+			$.ajax({
+			url : '/Kream/GetRecentPrice.do',
+			type : 'get',
+			data : {
+				"prodid" : prodid,
+				"sizenm" : sizenm
+			},
+			success : function(res){
+				var temp = "구매입찰";
+				if(res==null){
+					$('.column_box').find('span[id = "recentPrice"]').empty();
+					$('.column_box').find('span[id = "chkwon"]').empty();
+					$('.column_box').find('span[id = "recentPrice"]').text(temp);
+					
+				}else{
+					$('.column_box').find('span[id = "chkwon"]').empty();
+					$('.column_box').find('span[id = "chkwon"]').text("원");
+					$('.column_box').find('span[id = "recentPrice"]').empty();
+					$('.column_box').find('span[id = "recentPrice"]').text(res);
+				}
+				$('.modal').modal('hide');
+			},
+			error : function(xhr){
+				alert('상태 : ' + xhr.status);
+			},
+			dataType : 'json'
+		});
+}
+
+//var a = function(){
+//	$(window).scroll(function(){
+//    //스크롤 이동시 작동코드
+//	});
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

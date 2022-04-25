@@ -1,0 +1,72 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>
+<%
+	String prodid = (String) request.getAttribute("prodid");
+%>
+<script type="text/javascript">
+
+$(function(){
+	str = "";
+	code = "";
+	
+	
+	$.ajax({
+		url : '/Kream/prodDetail.do',
+		type : 'get',
+		data : {
+			"prodid" : <%=prodid%>
+		},
+		success : function(res){
+			//res.키값
+			str += '<img src = "' + res.photo_path + '" alt = ' + res.prod_name +'>';
+			
+			$('.prodimg').html(str);
+			
+		},
+		error : function(xhr){
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})
+})
+
+
+</script>
+
+
+</head>
+<body>
+
+<h2>ShoeKream</h2>
+<hr>
+
+<div class = "content">
+	<div class = "column_bind">
+		<div class = "prodimg">
+			<span><%=prodid %></span>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

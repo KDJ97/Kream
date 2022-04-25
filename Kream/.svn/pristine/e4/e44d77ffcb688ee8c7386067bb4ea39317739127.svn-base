@@ -1,0 +1,57 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.text.*"%>
+<script src = "<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>
+<%
+DecimalFormat df = new DecimalFormat("###,###");
+int val = 1234567;
+System.out.println(df.format(val));
+%>
+
+    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<script>
+
+$(function() {
+	  var $input = $(".input_amount");
+	  $input.on('keyup', function() {
+	    // 입력 값 알아내기
+	    var _this = this;
+	    numberFormat(_this)
+	  })
+
+	});
+
+	// 콤마 찍기
+	function comma(str) {
+	  str = String(str);
+	  return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	}
+
+	// 콤마 풀기
+	function uncomma(str) {
+	  str = String(str);
+	  return str.replace(/[^\d]+/g, '');
+	}
+
+	function numberFormat(obj) {
+	  obj.value = comma(uncomma(obj.value));
+	}
+
+</script>
+
+
+
+
+ 
+
+</head>
+<body>
+
+<input type="text" class="input_amount">
+</body>
+</html>

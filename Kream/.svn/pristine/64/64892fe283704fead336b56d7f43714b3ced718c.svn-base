@@ -1,0 +1,22 @@
+package kr.or.ddit.kream.admin.service;
+
+import kr.or.ddit.kream.admin.dao.AdminBoardDaoImpl;
+import kr.or.ddit.kream.admin.dao.AdminNoticeDaoImpl;
+import kr.or.ddit.kream.admin.dao.IAdminBoardDao;
+import kr.or.ddit.kream.admin.dao.IAdminNoticeDao;
+
+public class AdminNoticeServiceImpl implements IAdminNoticeService{
+	private IAdminNoticeDao  dao;
+	private static IAdminNoticeService service;
+	
+	//생성자  - dao객체 얻기 
+	private AdminNoticeServiceImpl() {
+		dao = AdminNoticeDaoImpl.getInstance();
+	}
+	//getInstance()메소드 - dao객체생성하고 리턴 
+	public  static IAdminNoticeService getInstance() {
+		if(service == null) service = new AdminNoticeServiceImpl();
+			
+		return  service;
+	}
+}

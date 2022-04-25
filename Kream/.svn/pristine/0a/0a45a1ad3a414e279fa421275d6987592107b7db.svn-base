@@ -1,0 +1,42 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "../js/prodBoard.js"></script>
+<script type="text/javascript">
+
+$(function(){
+
+	prodList();	
+})
+
+
+</script>
+</head>
+<body>
+
+<h1>SHOP</h1>
+<hr>
+
+<!-- 상품 리스트 출력 -->
+<div class = "search_result_md">
+	<div class = "search_result_list">
+		<div class = "search_result_item">
+			<a href = "">
+				<img alt="나이키 덩크 로우 레트로 블랙" 
+				src="../img/Jordan/(W) Jordan 1 Elevate Low SE White and Wolf Grey.jpg"
+				 class="image">
+				<img alt="나이키 덩크 로우 레트로 블랙" 
+				src="D://A_TeachingMaterial/04_MiddelProject/workspace/Kream/src/webapp/img/Jordan/(W) Jordan 1 Elevate Low SE White and Wolf Grey.jpg"
+				 class="image">
+				 
+			</a>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

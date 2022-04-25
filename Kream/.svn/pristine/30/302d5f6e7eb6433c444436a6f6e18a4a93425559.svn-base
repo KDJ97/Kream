@@ -1,0 +1,21 @@
+package kr.or.ddit.kream.dao;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.or.ddit.kream.util.SqlMapClientFactory;
+
+public class ProdDaoImpl implements IProdDao{
+
+	private SqlMapClient smc;
+	private static IProdDao dao;
+	
+	private ProdDaoImpl() {
+		smc = SqlMapClientFactory.getSqlMapClient();
+	}
+	
+	public static IProdDao getInstance() {
+		if(dao==null) dao = new ProdDaoImpl();
+		return dao;
+	}
+	
+}

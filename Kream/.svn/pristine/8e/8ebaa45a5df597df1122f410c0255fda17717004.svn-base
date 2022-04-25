@@ -1,0 +1,12 @@
+package kr.or.ddit.kream.prod.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.or.ddit.kream.vo.MainPageProdVo;
+
+public interface IProdDao {
+	
+	public List<MainPageProdVo> prodList() throws SQLException;
+
+}

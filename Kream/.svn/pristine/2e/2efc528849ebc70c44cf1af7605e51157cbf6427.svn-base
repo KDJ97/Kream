@@ -1,0 +1,43 @@
+package kr.or.ddit.kream.bid.service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import kr.or.ddit.kream.bid.dao.BidDaoImpl;
+import kr.or.ddit.kream.bid.dao.IBidDao;
+import kr.or.ddit.kream.vo.BidVo;
+
+public class BidServiceImpl implements IBidService{
+
+	private IBidDao dao;  // 
+	private static IBidService Service;
+	
+	private BidServiceImpl() {
+		dao = BidDaoImpl.getInstance();	//
+	}
+
+	public static IBidService getInstance(){
+		if(Service==null) Service = new BidServiceImpl();
+		return Service;
+	}
+
+
+	@Override
+	public List<BidVo> sellInfo(String prod_id) {
+		List<BidVo> list = null;
+		
+		try {
+			list = dao.sellInfo(prod_id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list; 
+	}
+
+	
+	
+	
+}

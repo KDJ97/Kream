@@ -1,0 +1,56 @@
+package kr.or.ddit.kream.vo;
+
+public class ReviewVo {
+
+	
+	private String review_id;
+	private String mem_email;
+	private String review_photopath;
+	private String review_title;
+	private String review_content;
+	private String review_date;
+	private String prod_id;
+	
+	public String getReview_id() {
+		return review_id;
+	}
+	public void setReview_id(String review_id) {
+		this.review_id = review_id;
+	}
+	public String getMem_email() {
+		return mem_email;
+	}
+	public void setMem_email(String mem_email) {
+		this.mem_email = mem_email;
+	}
+	public String getReview_photopath() {
+		return review_photopath;
+	}
+	public void setReview_photopath(String review_photopath) {
+		this.review_photopath = review_photopath;
+	}
+	public String getReview_title() {
+		return review_title;
+	}
+	public void setReview_title(String review_title) {
+		this.review_title = review_title;
+	}
+	public String getReview_content() {
+		return review_content;
+	}
+	public void setReview_content(String review_content) {
+		this.review_content = review_content;
+	}
+	public String getReview_date() {
+		return review_date;
+	}
+	public void setReview_date(String review_date) {
+		this.review_date = review_date;
+	}
+	public String getProd_id() {
+		return prod_id;
+	}
+	public void setProd_id(String prod_id) {
+		this.prod_id = prod_id;
+	}
+}
